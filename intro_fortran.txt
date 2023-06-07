@@ -1,0 +1,61 @@
+!------------------------------------------------------------------------------
+!Purpose: This module load the initial input paraeters and the initial data 
+!needed for transport calculations. The parameter are divide into the system
+!parameters and electronic parameters respectivelly. This module use the 
+!Tag's [1] suroutines defined in the module UTILITIES in order to facilitate 
+!the redin of the input parameters, and also external LAPACK [2] subroutines
+!for solve the inversion and eigen proplem of a matrix.
+!
+!(i)the system parameters: the name of the project (DNA or PROTEIN),the number of 
+!levels (NL) for the reduce matrix, the number of monomers (NM),i.e. number of 
+!nucleotides or amino acids in the sequence,the number of actual pair (NAM) in the sequence,
+!the zise (LH) of the Hamiltonian matrix of each pair,the HOMO's position (HOMO1,HOMO2)
+! in the Fock matrix of the fragment the length of the system (NS),i.e. the number of 
+!different combination of the monomers; 
+!(ii)Electronic parameters: elctronic temperature (Tp),the lead (Lead), the Fermi level
+!of the lead (Ef),the chemical potentials (MuL,MuR),the scape rate (Gm),and the DC 
+!applied voltage (DC_volt)
+!
+!The data for he system is stored inthe follows array: 
+!a)the 1D SeqM, CouplM and ActPairM arrays stored the sequencen, the coupling and the 
+!number of actual pair of monomers.
+  
+!b)the 1D arrays ListSyst and ListOrd stored in a list the monomers members of the project, 
+!and the number and defined order in which the data is stored
+
+!c)the 1D arrays ListLH, ListHOM1 and ListHOM2; stored the zise of the Fock matirx and the
+!position in the Fock matrix of the HOMO's of fragments for each pairs of monomers(*)
+
+!d)the array ListLev, accordin with the number of level NL and the HOMO's position, stored
+!the set of levels of each fragment to be used in the construction of the reduce matrix,
+!i.e. stored ......HOMO1-1,HOMO1,LUMO1,......HOMO2-1,HOMO2,LUMO2, of each pair(*)
+!
+!e)the arrays ListH0,ListS and ListH; stored the isolated Hamiltonian (of fragments)matrix,
+!the overlap matrix and the coupling Hamiltonian (fragments + ending groups) matirx of each 
+!pair of monomers(*)
+!
+!f)The arrays ListH0Red and ListSRed, stored the reduce isolated hamitonian of fragments and 
+!overlap matrix for ecah pairs according to the set of levels stored in ListLev(*)
+!
+!g)the arrays ListEva and ListEve, stored the eigenvalues and eigenvectors of the Hamiltonian
+!matrix (generalize eigen problem) of each pair(*)
+!
+!h)The arrays ListEveRed stored the reduce set of eigenvector for ecah pairs, according to the 
+!set of levels stored in ListLev(*)
+!
+!Finally a set of constant needed for calculations are defined: the value of Pi, the electon
+!charge(Ech), the Plank constant(Hp),the Boltzman constant(Kb), and a conversion factor(CF)(**)
+!
+!
+!Note:
+!(*)All stored follows the order defined in ListOrd
+!(**)In Hartree units
+!NMAX define the maximum zise allocation for the H0,S,H, Eve,Eva, matrices, since pairs all
+!different in zise
+!H0 is a temporal array for intermediate calculations of isolated Hamiltonian
+!
+! Record of revisions
+!   Date      Programer          Descripion of change
+! -------   ---------------   --------------------------------------
+! 30/01/2023   J. R. Alvarez    Original code 
+!--------------------------------------------------------------------------------------------------------
