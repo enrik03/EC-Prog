@@ -1,7 +1,8 @@
 
 # Programa en python para transporte electronico 
 
-import math as m
+import math as m 
+import numpy as np
 #import matplotlib as pt
 #import pandas as pd 
 
@@ -15,12 +16,42 @@ import math as m
 # real*8,parameter                       ::delta    = 1.0d-12
 # real*8,parameter                       ::test_E   = -5.50d00
 # contains 
+NL = int 
+NM = int
+NC = int 
+Cicle = int 
+LHX = int 
+LHXY = int 
+HOMOX = int
+HOMOXY1 = int
+HOMOXY2 = int 
+NS = int
+NB = int
+Tp = float 
+Ef = float
+DC_volt = float 
+Gm = float
+MuL = float
+MuR = float 
+Lead = str*2 
+Project = str*10
+afileN = str # Tiene que ser un array de caracteres
+IntSub = int 
+ifileN = int 
 
-# First subroutine: input the initial data. will be stored in the input_data.dat file 
+
+# 1:First subroutine: input the initial data. will be stored in the input_data.dat file 
 
 ifileN = int(input()) 
 afileN = str 
-chart_int(ifileN,afileN) 
+i,j,k,stat = int 
+inidata = str
+seqfile = str
+
+chart_int(ifileN,afileN)
+## inidata= 'input_data-'//trim(adjustl(afileN))//'.dat'
+#open(UNIT=10,file=trim(inidata),status='old',action='read',IOSTAT=stat)
+
 open()
 if (stat != 0): 
     print("Main: error opening ini file")
